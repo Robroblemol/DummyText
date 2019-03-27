@@ -1,0 +1,23 @@
+{
+  "name": "dummyText",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/Robroblemol/DummyText.git",
+  "author": "<robroblemol>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel index.html",
+    "build": "parcel build index.html"
+  },
+  "dependencies": {
+    "global": "^4.3.2",
+    "parcel-bundler": "^1.12.3",
+    "react": "^16.8.5",
+    "react-dom": "^16.8.5",
+    "style.css": "^1.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/preset-react": "^7.0.0"
+  }
+}
