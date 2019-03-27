@@ -8,39 +8,55 @@ export default class App extends Component {
                 results:[],
             }
         this.handleChange = this.handleChange.bind(this);
+    }  
 
+    componentDidMount(){
+        this.fetchText();
+    }
+
+    fetchText(){
         const url = 'https://baconipsum.com/api/?type=meat-and-filler&paras='+this.state.paragraphs;
         fetch(url)
             .then((response)=> { //usar arow funtion para evitar el contexto local
                 return response.json();
             })
-            .then((myJson) =>{
+            .then((myJson) =>{ //usar arow funtion para evitar el contexto local
                  console.log(myJson);
                  this.setState({results:myJson})
              });
-    }  
+    }
+
     handleChange(ev){
-        this.setState({paragraphs: ev.target.value});
-        
+       // this.setState({paragraphs: ev.target.value}); // asi seria la forma normal
+       // this.fetchText();//el problema es que carga los valores anteriores
+
+       //de esta manera se ejecutan al mismo tiempo
+       this.setState({paragraphs: ev.target.value},() => {
+           this.fetchText();
+       });
     }      
     render(){
        return <div id = "dummy-container">
             <h1>Generador Texto Dummy</h1>
-            <div id = "dumy-text-result">
-                {this.state.results.map((paragraphText, index) => {
-                    return <p key= {index}>{paragraphText}</p>
-                })}
-            </div>
+
             <div id = "dumy-text-controls">
                 <h2>Opciones tiempo real:</h2>
               <p>
                 Parrafos:
               </p>  
                 <input type= "number" 
+                       min ="1" 
                        value = {this.state.paragraphs} 
                        onChange = {this.handleChange}
                        />
             </div>
+
+            <div id = "dumy-text-result">
+                {this.state.results.map((paragraphText, index) => {
+                    return <p key= {index}>{paragraphText}</p>
+                })}
+            </div>
+            
        </div> 
     }
 }
