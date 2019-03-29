@@ -4,6 +4,7 @@ export default class App extends Component {
     constructor(props){
         super(props)
             this.state = {
+                isLoading: true,
                 paragraphs: 3,
                 results:[],
             }
@@ -22,7 +23,10 @@ export default class App extends Component {
             })
             .then((myJson) =>{ //usar arow funtion para evitar el contexto local
                  console.log(myJson);
-                 this.setState({results:myJson})
+                 this.setState({
+                     results:myJson,
+                     isLoading: false,
+                    })
              });
     }
 
@@ -34,7 +38,18 @@ export default class App extends Component {
        this.setState({paragraphs: ev.target.value},() => {
            this.fetchText();
        });
-    }      
+    }   
+    
+    displayResult(){
+        if(this.state.isLoading){
+            return <p>Loading...</p>
+        }else{
+            return this.state.results.map((paragraphText, index) => {
+                return <p key= {index}>{paragraphText}</p>
+            }) 
+        }
+       
+    }
     render(){
        return <div id = "dummy-container">
             <h1>Generador Texto Dummy</h1>
@@ -52,9 +67,7 @@ export default class App extends Component {
             </div>
 
             <div id = "dumy-text-result">
-                {this.state.results.map((paragraphText, index) => {
-                    return <p key= {index}>{paragraphText}</p>
-                })}
+                {this.displayResult()}
             </div>
             
        </div> 
