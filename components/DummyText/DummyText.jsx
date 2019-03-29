@@ -16,6 +16,8 @@ export default class App extends Component {
     }
 
     fetchText(){
+        this.setState({isLoading: true});
+
         const url = 'https://baconipsum.com/api/?type=meat-and-filler&paras='+this.state.paragraphs;
         fetch(url)
             .then((response)=> { //usar arow funtion para evitar el contexto local
@@ -40,16 +42,6 @@ export default class App extends Component {
        });
     }   
     
-    displayResult(){
-        if(this.state.isLoading){
-            return <p>Loading...</p>
-        }else{
-            return this.state.results.map((paragraphText, index) => {
-                return <p key= {index}>{paragraphText}</p>
-            }) 
-        }
-       
-    }
     render(){
        return <div id = "dummy-container">
             <h1>Generador Texto Dummy</h1>
@@ -67,7 +59,12 @@ export default class App extends Component {
             </div>
 
             <div id = "dumy-text-result">
-                {this.displayResult()}
+                {
+                    this.state.isLoading ? <p>Loading...</p>
+                    : this.state.results.map((paragraphText, index) => {
+                        return <p key= {index}>{paragraphText}</p>
+                    }) 
+                }
             </div>
             
        </div> 
